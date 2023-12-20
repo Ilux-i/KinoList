@@ -1,0 +1,7 @@
+org/example/entity/userEntity.class
+org/example/startApplication.class
+org/example/filter/filterUserController.class
+org/example/controller/userController.class
+org/example/service/userService.class
+org/example/dto/columnDto/crudDto.class
+org/example/repository/userRepository.class
