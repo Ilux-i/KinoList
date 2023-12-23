@@ -31,12 +31,7 @@ public class SecurityConfig {
                 .addFilterBefore(
                         new UserAuthorisationFilter(),
                         UsernamePasswordAuthenticationFilter.class
-                )
-                .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/swagger-ui/**").permitAll();
-                    authorize.requestMatchers("/login").permitAll();
-                    authorize.requestMatchers("/**").authenticated();
-                });
+                );
 
         return http.build();
     }

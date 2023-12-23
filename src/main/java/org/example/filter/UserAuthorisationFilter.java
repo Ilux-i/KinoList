@@ -24,7 +24,13 @@ import java.util.*;
 public class UserAuthorisationFilter extends AbstractAuthenticationProcessingFilter {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private List<String> ignoredPatterns = List.of("/login");
+    private List<String> ignoredPatterns = List.of(
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/login",
+            "/error"
+    );
 
     public UserAuthorisationFilter() {
         super("/**");
