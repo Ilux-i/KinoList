@@ -21,10 +21,4 @@ public class UserController {
         var dto = new CrudDto(null, login, password);
         service.createdUser(dto);
     }
-
-    @GetMapping("test")
-    public UserPrincipal test(){
-        var principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return principal;
-    }
 }

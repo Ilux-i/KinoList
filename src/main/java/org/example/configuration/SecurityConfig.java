@@ -34,6 +34,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers("/swagger-ui/**").permitAll();
+                    authorize.requestMatchers("/login").permitAll();
                     authorize.requestMatchers("/**").authenticated();
                 });
 

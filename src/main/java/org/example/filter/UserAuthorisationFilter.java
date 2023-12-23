@@ -15,6 +15,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.io.IOException;
 import java.util.*;
@@ -22,19 +24,16 @@ import java.util.*;
 public class UserAuthorisationFilter extends AbstractAuthenticationProcessingFilter {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private final String COOKIE_NAME = "MY_SESSION";
+    private List<String> ignoredPatterns = List.of("/login");
 
     public UserAuthorisationFilter() {
         super("/**");
     }
 
-    private Map<String, String> sessionMap = new HashMap<>();
+    public static Map<String, String> sessionMap = new HashMap<>();
+    public static final String COOKIE_NAME = "MY_SESSION";
 
     {
-        var generatedSessionId = UUID.randomUUID().toString();
-        log.info("Generated session id " + generatedSessionId);
-        sessionMap.put("0cdbea5a-ae96-4eaa-a0e7-bed40d3ec47c", "nikita");
-
         setAuthenticationFailureHandler(new AuthenticationFailureHandler() {
             @Override
             public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
@@ -50,6 +49,13 @@ public class UserAuthorisationFilter extends AbstractAuthenticationProcessingFil
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
             }
+        });
+    }
+
+    @Override
+    protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        return ignoredPatterns.stream().noneMatch((pattern) -> {
+            return new AntPathRequestMatcher(pattern).matches(request);
         });
     }
 
