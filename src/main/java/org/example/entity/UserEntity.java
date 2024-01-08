@@ -1,24 +1,21 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import org.example.dto.columnDto.CrudDto;
+import lombok.*;
+
 
 @Entity
 @Getter
 @Setter
 @Table(name = "user", schema = "kino_list")
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class UserEntity {
     @Id
     @GeneratedValue
-    Long id;
-    @Column
-    String login;
-    @Column
-    String password;
-
-    public CrudDto ofuserEntity(UserEntity entity){
-        return new CrudDto(entity.getId(), entity.getLogin(), entity.getPassword());
-    }
+    private Long id;
+    private String login;
+    private String password;
+    private ERole role = ERole.USER_ROLE;
 }
